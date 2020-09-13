@@ -83,28 +83,28 @@
 #define DRAG_MENU_BUTTON 2
 
 /* Maximum size (pixels) allowed for icons at the standard zoom level. */
-#define MINIMUM_IMAGE_SIZE 24
+#define MINIMUM_IMAGE_SIZE 96//24
 #define MAXIMUM_IMAGE_SIZE 96
 
-#define ICON_PAD_LEFT 4
-#define ICON_PAD_RIGHT 4
+#define ICON_PAD_LEFT 0//4
+#define ICON_PAD_RIGHT 0//4
 #define ICON_BASE_WIDTH 96
 
-#define ICON_PAD_TOP 4
-#define ICON_PAD_BOTTOM 4
+#define ICON_PAD_TOP 0//4
+#define ICON_PAD_BOTTOM 0//4
 
-#define CONTAINER_PAD_LEFT 4
-#define CONTAINER_PAD_RIGHT 4
-#define CONTAINER_PAD_TOP 4
-#define CONTAINER_PAD_BOTTOM 4
+#define CONTAINER_PAD_LEFT 0//4
+#define CONTAINER_PAD_RIGHT 0//4
+#define CONTAINER_PAD_TOP 0//4
+#define CONTAINER_PAD_BOTTOM 0//4
 
-#define STANDARD_ICON_GRID_WIDTH 155
+#define STANDARD_ICON_GRID_WIDTH 96//155
 
-#define TEXT_BESIDE_ICON_GRID_WIDTH 205
+#define TEXT_BESIDE_ICON_GRID_WIDTH 96//205
 
 /* Desktop layout mode defines */
-#define DESKTOP_PAD_HORIZONTAL 	10
-#define DESKTOP_PAD_VERTICAL 	10
+#define DESKTOP_PAD_HORIZONTAL 	0//10
+#define DESKTOP_PAD_VERTICAL 	0//10
 #define SNAP_SIZE_X 		78
 #define SNAP_SIZE_Y 		20
 
@@ -115,8 +115,8 @@
 #define DEFAULT_LIGHT_INFO_COLOR "#AAAAFD"
 #define DEFAULT_DARK_INFO_COLOR  "#33337F"
 
-#define MINIMUM_EMBEDDED_TEXT_RECT_WIDTH       20
-#define MINIMUM_EMBEDDED_TEXT_RECT_HEIGHT      20
+#define MINIMUM_EMBEDDED_TEXT_RECT_WIDTH       10//20
+#define MINIMUM_EMBEDDED_TEXT_RECT_HEIGHT      10//20
 
 /* If icon size is bigger than this, request large embedded text.
  * Its selected so that the non-large text should fit in "normal" icon sizes
@@ -124,7 +124,7 @@
 #define ICON_SIZE_FOR_LARGE_EMBEDDED_TEXT 55
 
 /* From caja-icon-canvas-item.c */
-#define MAX_TEXT_WIDTH_BESIDE 90
+#define MAX_TEXT_WIDTH_BESIDE 45//90
 
 #define SNAP_HORIZONTAL(func,x) ((func ((double)((x) - DESKTOP_PAD_HORIZONTAL) / SNAP_SIZE_X) * SNAP_SIZE_X) + DESKTOP_PAD_HORIZONTAL)
 #define SNAP_VERTICAL(func, y) ((func ((double)((y) - DESKTOP_PAD_VERTICAL) / SNAP_SIZE_Y) * SNAP_SIZE_Y) + DESKTOP_PAD_VERTICAL)

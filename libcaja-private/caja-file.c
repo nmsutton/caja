@@ -4600,8 +4600,17 @@ caja_file_get_icon (CajaFile *file,
 
 			w = gdk_pixbuf_get_width (raw_pixbuf);
 			h = gdk_pixbuf_get_height (raw_pixbuf);
+			if (w > 256 | h > 256) {
+				w = w / 10;
+				h = h / 10;
+			}
+			else if (w > 64 | h > 64) {
+				w = w / 2;
+				h = h / 2;
+			}
 
 			s = MAX (w, h);
+			//s = 512;
 			/* Don't scale up small thumbnails in the standard view */
 			if (s <= cached_thumbnail_size) {
 				thumb_scale = (double)size / CAJA_ICON_SIZE_STANDARD;

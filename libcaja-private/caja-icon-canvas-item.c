@@ -512,7 +512,8 @@ get_scaled_icon_size (CajaIconCanvasItem *item,
 		      gint *height)
 {
     GdkPixbuf *pixbuf = NULL;
-    gint scale = 1;
+    //gint scale = 1;
+    gint scale = 0.5;
 
     if (item != NULL) {
         EelCanvas *canvas;
@@ -526,6 +527,9 @@ get_scaled_icon_size (CajaIconCanvasItem *item,
         *width = (pixbuf == NULL) ? 0 : (gdk_pixbuf_get_width (pixbuf) / scale);
     if (height)
         *height = (pixbuf == NULL) ? 0 : (gdk_pixbuf_get_height (pixbuf) / scale);
+
+    //*width = 128;
+    //*height = 128;
 }
 
 cairo_surface_t *

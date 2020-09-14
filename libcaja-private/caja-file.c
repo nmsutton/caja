@@ -4601,12 +4601,16 @@ caja_file_get_icon (CajaFile *file,
 			w = gdk_pixbuf_get_width (raw_pixbuf);
 			h = gdk_pixbuf_get_height (raw_pixbuf);
 			if (w > 256 | h > 256) {
-				w = w / 10;
-				h = h / 10;
+				w = w / 9;
+				h = h / 9;
 			}
 			else if (w > 64 | h > 64) {
-				w = w / 2;
-				h = h / 2;
+				w = w / 1.8;
+				h = h / 1.8;
+			}
+			else {
+				//w = w / 1.4;
+				//h = h / 1.4;
 			}
 
 			s = MAX (w, h);
@@ -4668,6 +4672,8 @@ caja_file_get_icon (CajaFile *file,
 		gicon = g_themed_icon_new (ICON_NAME_THUMBNAIL_LOADING);
 	else
 		gicon = caja_file_get_gicon (file, flags);
+
+	//scale = scale * 2;
 
 	if (gicon) {
 		icon = caja_icon_info_lookup (gicon, size, scale);

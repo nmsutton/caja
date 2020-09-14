@@ -512,8 +512,8 @@ get_scaled_icon_size (CajaIconCanvasItem *item,
 		      gint *height)
 {
     GdkPixbuf *pixbuf = NULL;
-    //gint scale = 1;
-    gint scale = 0.5;
+    gint scale = 1;
+    //gint scale = 0.5;
 
     if (item != NULL) {
         EelCanvas *canvas;
@@ -530,6 +530,8 @@ get_scaled_icon_size (CajaIconCanvasItem *item,
 
     //*width = 128;
     //*height = 128;
+    *width = *width * 0.95;
+    *height = *height * 0.95;
 }
 
 cairo_surface_t *
@@ -1268,7 +1270,7 @@ draw_label_text (CajaIconCanvasItem *item,
     return;
 #endif
 
-    details = item->details;
+    /*details = item->details;
 
     measure_label_text (item);
     if (details->text_height == 0 ||
@@ -1303,7 +1305,7 @@ draw_label_text (CajaIconCanvasItem *item,
                           "activate_prelight_icon_label", &prelight_label,
                           NULL);
 
-    /* if the icon needs a background, do some set-up */
+    // if the icon needs a background, do some set-up
     if (!needs_highlight && have_editable &&
         details->text_width > 0 && details->text_height > 0 &&
         prelight_label && item->details->is_prelit) {
@@ -1314,9 +1316,9 @@ draw_label_text (CajaIconCanvasItem *item,
             frame_w = text_rect.x1 - text_rect.x0;
             frame_h = text_rect.y1 - text_rect.y0;
     } else if (!details->is_renaming) {
-            /* always draw a background but when renaming where the editing
-             * area is on top already. The default background will be transparent,
-             * but drawing it already allows the theme to change that. */
+            // always draw a background but when renaming where the editing
+            // area is on top already. The default background will be transparent,
+            // but drawing it already allows the theme to change that. 
 
             if (needs_highlight)
                 state |= GTK_STATE_FLAG_SELECTED;
@@ -1429,6 +1431,7 @@ draw_label_text (CajaIconCanvasItem *item,
     {
         g_object_unref (additional_layout);
     }
+    */
 }
 
 void

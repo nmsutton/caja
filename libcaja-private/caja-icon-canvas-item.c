@@ -528,10 +528,10 @@ get_scaled_icon_size (CajaIconCanvasItem *item,
     if (height)
         *height = (pixbuf == NULL) ? 0 : (gdk_pixbuf_get_height (pixbuf) / scale);
 
-    //*width = 128;
-    //*height = 128;
-    *width = *width * 0.95;
-    *height = *height * 0.95;
+    if (FALSE) {
+        *width = *width * 0.9;
+        *height = *height * 0.9;
+    }
 }
 
 cairo_surface_t *
@@ -1270,168 +1270,169 @@ draw_label_text (CajaIconCanvasItem *item,
     return;
 #endif
 
-    /*details = item->details;
+    if (TRUE) {
+        details = item->details;
 
-    measure_label_text (item);
-    if (details->text_height == 0 ||
-            details->text_width == 0)
-    {
-        return;
-    }
+        measure_label_text (item);
+        if (details->text_height == 0 ||
+                details->text_width == 0)
+        {
+            return;
+        }
 
-    container = CAJA_ICON_CONTAINER (EEL_CANVAS_ITEM (item)->canvas);
-    context = gtk_widget_get_style_context (GTK_WIDGET (container));
+        container = CAJA_ICON_CONTAINER (EEL_CANVAS_ITEM (item)->canvas);
+        context = gtk_widget_get_style_context (GTK_WIDGET (container));
 
-    text_rect = compute_text_rectangle (item, icon_rect, TRUE, BOUNDS_USAGE_FOR_DISPLAY);
+        text_rect = compute_text_rectangle (item, icon_rect, TRUE, BOUNDS_USAGE_FOR_DISPLAY);
 
-    needs_highlight = details->is_highlighted_for_selection || details->is_highlighted_for_drop;
-    is_rtl_label_beside = caja_icon_container_is_layout_rtl (container) &&
-                          container->details->label_position == CAJA_ICON_LABEL_POSITION_BESIDE;
+        needs_highlight = details->is_highlighted_for_selection || details->is_highlighted_for_drop;
+        is_rtl_label_beside = caja_icon_container_is_layout_rtl (container) &&
+                              container->details->label_position == CAJA_ICON_LABEL_POSITION_BESIDE;
 
-    editable_layout = NULL;
-    additional_layout = NULL;
+        editable_layout = NULL;
+        additional_layout = NULL;
 
-    have_editable = details->editable_text != NULL && details->editable_text[0] != '\0';
-    have_additional = details->additional_text != NULL && details->additional_text[0] != '\0';
-    g_assert (have_editable || have_additional);
+        have_editable = details->editable_text != NULL && details->editable_text[0] != '\0';
+        have_additional = details->additional_text != NULL && details->additional_text[0] != '\0';
+        g_assert (have_editable || have_additional);
 
-    max_text_width = floor (caja_icon_canvas_item_get_max_text_width (item));
+        max_text_width = floor (caja_icon_canvas_item_get_max_text_width (item));
 
-    base_state = gtk_widget_get_state_flags (GTK_WIDGET (container));
-    base_state &= ~(GTK_STATE_FLAG_SELECTED | GTK_STATE_FLAG_PRELIGHT);
-    state = base_state;
+        base_state = gtk_widget_get_state_flags (GTK_WIDGET (container));
+        base_state &= ~(GTK_STATE_FLAG_SELECTED | GTK_STATE_FLAG_PRELIGHT);
+        state = base_state;
 
-    gtk_widget_style_get (GTK_WIDGET (container),
-                          "activate_prelight_icon_label", &prelight_label,
-                          NULL);
+        gtk_widget_style_get (GTK_WIDGET (container),
+                              "activate_prelight_icon_label", &prelight_label,
+                              NULL);
 
-    // if the icon needs a background, do some set-up
-    if (!needs_highlight && have_editable &&
-        details->text_width > 0 && details->text_height > 0 &&
-        prelight_label && item->details->is_prelit) {
-            state |= GTK_STATE_FLAG_PRELIGHT;
+        // if the icon needs a background, do some set-up
+        if (!needs_highlight && have_editable &&
+            details->text_width > 0 && details->text_height > 0 &&
+            prelight_label && item->details->is_prelit) {
+                state |= GTK_STATE_FLAG_PRELIGHT;
 
-            frame_x = text_rect.x0;
-            frame_y = text_rect.y0;
-            frame_w = text_rect.x1 - text_rect.x0;
-            frame_h = text_rect.y1 - text_rect.y0;
-    } else if (!details->is_renaming) {
-            // always draw a background but when renaming where the editing
-            // area is on top already. The default background will be transparent,
-            // but drawing it already allows the theme to change that. 
+                frame_x = text_rect.x0;
+                frame_y = text_rect.y0;
+                frame_w = text_rect.x1 - text_rect.x0;
+                frame_h = text_rect.y1 - text_rect.y0;
+        } else if (!details->is_renaming) {
+                // always draw a background but when renaming where the editing
+                // area is on top already. The default background will be transparent,
+                // but drawing it already allows the theme to change that. 
 
-            if (needs_highlight)
-                state |= GTK_STATE_FLAG_SELECTED;
+                if (needs_highlight)
+                    state |= GTK_STATE_FLAG_SELECTED;
 
-            frame_x = is_rtl_label_beside ? text_rect.x0 + item->details->text_dx : text_rect.x0;
-            frame_y = text_rect.y0;
-            frame_w = is_rtl_label_beside ? text_rect.x1 - text_rect.x0 - item->details->text_dx : text_rect.x1 - text_rect.x0;
-            frame_h = text_rect.y1 - text_rect.y0;
-    } else {
-            draw_frame = FALSE;
-    }
+                frame_x = is_rtl_label_beside ? text_rect.x0 + item->details->text_dx : text_rect.x0;
+                frame_y = text_rect.y0;
+                frame_w = is_rtl_label_beside ? text_rect.x1 - text_rect.x0 - item->details->text_dx : text_rect.x1 - text_rect.x0;
+                frame_h = text_rect.y1 - text_rect.y0;
+        } else {
+                draw_frame = FALSE;
+        }
 
-    if (draw_frame) {
+        if (draw_frame) {
+                gtk_style_context_save (context);
+                gtk_style_context_set_state (context, state);
+
+                gtk_render_frame (context, cr,
+                                  frame_x, frame_y,
+                                  frame_w, frame_h);
+                gtk_render_background (context, cr,
+                                       frame_x, frame_y,
+                                       frame_w, frame_h);
+
+                gtk_style_context_restore (context);
+        }
+
+        if (container->details->label_position == CAJA_ICON_LABEL_POSITION_BESIDE)
+        {
+            x = text_rect.x0 + 2;
+        }
+        else
+        {
+            x = text_rect.x0 + ((text_rect.x1 - text_rect.x0) - max_text_width) / 2;
+        }
+
+        if (have_editable &&
+            !details->is_renaming)
+        {
+            state = base_state;
+
+            if (prelight_label && item->details->is_prelit) {
+                    state |= GTK_STATE_FLAG_PRELIGHT;
+            }
+
+            if (needs_highlight) {
+                    state |= GTK_STATE_FLAG_SELECTED;
+            }
+
+            editable_layout = get_label_layout (&item->details->editable_text_layout, item, item->details->editable_text);
+            prepare_pango_layout_for_draw (item, editable_layout);
+
             gtk_style_context_save (context);
             gtk_style_context_set_state (context, state);
 
-            gtk_render_frame (context, cr,
-                              frame_x, frame_y,
-                              frame_w, frame_h);
-            gtk_render_background (context, cr,
-                                   frame_x, frame_y,
-                                   frame_w, frame_h);
+            gtk_render_layout (context, cr,
+                               x, text_rect.y0 + TEXT_BACK_PADDING_Y,
+                               editable_layout);
 
             gtk_style_context_restore (context);
-    }
-
-    if (container->details->label_position == CAJA_ICON_LABEL_POSITION_BESIDE)
-    {
-        x = text_rect.x0 + 2;
-    }
-    else
-    {
-        x = text_rect.x0 + ((text_rect.x1 - text_rect.x0) - max_text_width) / 2;
-    }
-
-    if (have_editable &&
-        !details->is_renaming)
-    {
-        state = base_state;
-
-        if (prelight_label && item->details->is_prelit) {
-                state |= GTK_STATE_FLAG_PRELIGHT;
         }
 
-        if (needs_highlight) {
-                state |= GTK_STATE_FLAG_SELECTED;
+        if (have_additional &&
+            !details->is_renaming)
+        {
+            state = base_state;
+
+            if (needs_highlight) {
+                    state |= GTK_STATE_FLAG_SELECTED;
+            }
+
+            additional_layout = get_label_layout (&item->details->additional_text_layout, item, item->details->additional_text);
+            prepare_pango_layout_for_draw (item, additional_layout);
+
+            gtk_style_context_save (context);
+            gtk_style_context_set_state (context, state);
+            gtk_style_context_add_class (context, "dim-label");
+
+            gtk_render_layout (context, cr,
+                               x, text_rect.y0 + details->editable_text_height + LABEL_LINE_SPACING + TEXT_BACK_PADDING_Y,
+                               additional_layout);
+
+            gtk_style_context_restore (context);
         }
 
-        editable_layout = get_label_layout (&item->details->editable_text_layout, item, item->details->editable_text);
-        prepare_pango_layout_for_draw (item, editable_layout);
+        if (!create_mask && item->details->is_highlighted_as_keyboard_focus)
+        {
+            if (needs_highlight) {
+                    state = GTK_STATE_FLAG_SELECTED;
+            }
 
-        gtk_style_context_save (context);
-        gtk_style_context_set_state (context, state);
+            gtk_style_context_save (context);
+            gtk_style_context_set_state (context, state);
 
-        gtk_render_layout (context, cr,
-                           x, text_rect.y0 + TEXT_BACK_PADDING_Y,
-                           editable_layout);
+            gtk_render_focus (context,
+                              cr,
+                             text_rect.x0,
+                             text_rect.y0,
+                             text_rect.x1 - text_rect.x0,
+                             text_rect.y1 - text_rect.y0);
 
-        gtk_style_context_restore (context);
-    }
-
-    if (have_additional &&
-        !details->is_renaming)
-    {
-        state = base_state;
-
-        if (needs_highlight) {
-                state |= GTK_STATE_FLAG_SELECTED;
+            gtk_style_context_restore (context);
         }
 
-        additional_layout = get_label_layout (&item->details->additional_text_layout, item, item->details->additional_text);
-        prepare_pango_layout_for_draw (item, additional_layout);
-
-        gtk_style_context_save (context);
-        gtk_style_context_set_state (context, state);
-        gtk_style_context_add_class (context, "dim-label");
-
-        gtk_render_layout (context, cr,
-                           x, text_rect.y0 + details->editable_text_height + LABEL_LINE_SPACING + TEXT_BACK_PADDING_Y,
-                           additional_layout);
-
-        gtk_style_context_restore (context);
-    }
-
-    if (!create_mask && item->details->is_highlighted_as_keyboard_focus)
-    {
-        if (needs_highlight) {
-                state = GTK_STATE_FLAG_SELECTED;
+        if (editable_layout != NULL)
+        {
+            g_object_unref (editable_layout);
         }
 
-        gtk_style_context_save (context);
-        gtk_style_context_set_state (context, state);
-
-        gtk_render_focus (context,
-                          cr,
-                         text_rect.x0,
-                         text_rect.y0,
-                         text_rect.x1 - text_rect.x0,
-                         text_rect.y1 - text_rect.y0);
-
-        gtk_style_context_restore (context);
+        if (additional_layout != NULL)
+        {
+            g_object_unref (additional_layout);
+        }
     }
-
-    if (editable_layout != NULL)
-    {
-        g_object_unref (editable_layout);
-    }
-
-    if (additional_layout != NULL)
-    {
-        g_object_unref (additional_layout);
-    }
-    */
 }
 
 void

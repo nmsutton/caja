@@ -528,9 +528,10 @@ get_scaled_icon_size (CajaIconCanvasItem *item,
     if (height)
         *height = (pixbuf == NULL) ? 0 : (gdk_pixbuf_get_height (pixbuf) / scale);
 
-    if (FALSE) {
-        *width = *width * 0.9;
-        *height = *height * 0.9;
+    reduce_icon_padding = TRUE;
+    if (reduce_icon_padding == TRUE) {
+        *width = *width * 0.95;
+        *height = *height * 0.95;
     }
 }
 
@@ -1270,7 +1271,9 @@ draw_label_text (CajaIconCanvasItem *item,
     return;
 #endif
 
-    if (TRUE) {
+    show_icon_captions = TRUE;
+    if (show_icon_captions == TRUE) {
+
         details = item->details;
 
         measure_label_text (item);
@@ -1314,6 +1317,7 @@ draw_label_text (CajaIconCanvasItem *item,
 
                 frame_x = text_rect.x0;
                 frame_y = text_rect.y0;
+                //frame_y = text_rect.y0 + 20;
                 frame_w = text_rect.x1 - text_rect.x0;
                 frame_h = text_rect.y1 - text_rect.y0;
         } else if (!details->is_renaming) {
@@ -1326,6 +1330,7 @@ draw_label_text (CajaIconCanvasItem *item,
 
                 frame_x = is_rtl_label_beside ? text_rect.x0 + item->details->text_dx : text_rect.x0;
                 frame_y = text_rect.y0;
+                //frame_y = text_rect.y0 + 20;
                 frame_w = is_rtl_label_beside ? text_rect.x1 - text_rect.x0 - item->details->text_dx : text_rect.x1 - text_rect.x0;
                 frame_h = text_rect.y1 - text_rect.y0;
         } else {
@@ -1943,6 +1948,11 @@ caja_icon_canvas_item_draw (EelCanvasItem *item,
     gtk_style_context_add_class (context, "caja-canvas-item");
 
     icon_rect = icon_item->details->canvas_rect;
+
+    shift_labels_down = TRUE;
+    if (shift_labels_down == TRUE) {
+        icon_rect.y0 = icon_rect.y0 - 18;
+    }
 
     temp_surface = map_surface (icon_item);
 

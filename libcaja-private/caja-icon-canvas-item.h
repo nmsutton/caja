@@ -46,6 +46,10 @@ G_BEGIN_DECLS
     typedef struct CajaIconCanvasItemClass CajaIconCanvasItemClass;
     typedef struct _CajaIconCanvasItemPrivate CajaIconCanvasItemPrivate;
 
+    int show_icon_captions;
+    int reduce_icon_padding;
+    int shift_labels_down;
+
     struct CajaIconCanvasItem
     {
         EelCanvasItem item;

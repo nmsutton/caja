@@ -4601,16 +4601,16 @@ caja_file_get_icon (CajaFile *file,
 			w = gdk_pixbuf_get_width (raw_pixbuf);
 			h = gdk_pixbuf_get_height (raw_pixbuf);
 			if (w > 256 | h > 256) {
-				//w = w / 9;
-				//h = h / 9;
-				w = w / 5;
-				h = h / 5;
+				w = w / 9;
+				h = h / 9;
+				//w = w / 5;
+				//h = h / 5;
 			}
 			else if (w > 64 | h > 64) {
-				//w = w / 1.8;
-				//h = h / 1.8;
-				w = w / 1;
-				h = h / 1;
+				w = w / 1.8;
+				h = h / 1.8;
+				//w = w / 1;
+				//h = h / 1;
 			}
 			else {
 				//w = w / 1.4;

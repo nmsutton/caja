@@ -531,7 +531,8 @@ get_scaled_icon_size (CajaIconCanvasItem *item,
     reduce_icon_padding = TRUE;
     if (reduce_icon_padding == TRUE) {
         *width = *width * 0.95;
-        *height = *height * 0.95;
+        *height = *height * 0.925;
+        //*height = *height * 0.95;
     }
 }
 
@@ -1951,7 +1952,8 @@ caja_icon_canvas_item_draw (EelCanvasItem *item,
 
     shift_labels_down = TRUE;
     if (shift_labels_down == TRUE) {
-        icon_rect.y0 = icon_rect.y0 - 18;
+        //icon_rect.y0 = icon_rect.y0 - 18;
+        icon_rect.y0 = icon_rect.y0 - 29;
     }
 
     temp_surface = map_surface (icon_item);
